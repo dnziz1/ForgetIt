@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ForgetItApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+f97348c772f34a656b13d8bca1473c5997433c0b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+27c450ce44222409c9b3fd63df1a8a836e3182bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("ForgetItApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ForgetItApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
