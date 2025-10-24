@@ -1,0 +1,15 @@
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\bin\Debug\net8.0\TravelChecklistConsoleApp.exe
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\bin\Debug\net8.0\TravelChecklistConsoleApp.deps.json
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\bin\Debug\net8.0\TravelChecklistConsoleApp.runtimeconfig.json
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\bin\Debug\net8.0\TravelChecklistConsoleApp.dll
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\bin\Debug\net8.0\TravelChecklistConsoleApp.pdb
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.AssemblyInfoInputs.cache
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.AssemblyInfo.cs
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.csproj.CoreCompileInputs.cache
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.sourcelink.json
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.dll
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\refint\TravelChecklistConsoleApp.dll
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.pdb
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\TravelChecklistConsoleApp.genruntimeconfig.cache
+C:\Users\danie\OneDrive\Documents\Robert Walters\C# Training\PersonalisedTravelChecklistApp\TravelChecklistConsoleApp\obj\Debug\net8.0\ref\TravelChecklistConsoleApp.dll

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36401.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgetItApp", "ForgetItApp\ForgetItApp.csproj", "{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelChecklistConsoleApp", "TravelChecklistConsoleApp\TravelChecklistConsoleApp.csproj", "{D45056BB-36C5-4495-9684-53BA6AFDFBF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDA4C0F-9A27-4773-A644-3DFB8B26A44B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7ADCEBE-0BCC-492B-AC19-2161FC8EBA4B}
+	EndGlobalSection
+EndGlobal
