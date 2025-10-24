@@ -71,7 +71,30 @@ class Program
 
     private static void CreateNewTrip()
     {
-        throw new NotImplementedException();
+        Console.Write("Trip Name: ");
+        var name = Console.ReadLine();
+
+        Console.Write("Trip Type (Train/Car/Plane/General): ");
+        var tripType = Console.ReadLine();
+
+        Console.Write("Start Time (yyyy-MM-dd HH:mm): ");
+        if (DateTime.TryParse(Console.ReadLine(), out var startTime))
+        {
+            Console.Write("End Time (yyyy-MM-dd HH:mm): ");
+            if (DateTime.TryParse(Console.ReadLine(), out var endTime))
+            {
+                // Here you would normally save the trip to a database or in-memory list
+                Console.WriteLine($"Trip '{name}' of type '{tripType}' created from {startTime} to {endTime}.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid end time format.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid start time format.");
+        }
     }
 
     public static void ShowMenu()
