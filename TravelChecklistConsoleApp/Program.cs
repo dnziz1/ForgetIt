@@ -8,11 +8,19 @@ class Program
     private static List<Trip> trips = new List<Trip>();
     private static int nextTripId = 1;
     private static int nextItemId = 1;
-    static void Main(string[] args)
+
+    private const string ConnectionString = "Server=localhost,1433;Database=TravelChecklistDb;User Id=SA;Password=P4ssword;TrustServerCertificate=True;";
+
+    public static void Main(string[] args)
     {
         Console.WriteLine("Travel Checklist - Checklist Manager");
         Console.WriteLine("====================================");
-        
+
+        Run();
+    }
+
+    public static void Run()
+    {
         // Menu Loop
         while (true)
         {
