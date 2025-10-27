@@ -56,7 +56,35 @@ class Program
 
     private static void CheckReminders()
     {
-        throw new NotImplementedException();
+        var upcomingTrips = trips.Where(t => t.TimeUntilTrip.TotalHours <= 24 && t.TimeUntilTrip.TotalHours > 0).ToList();
+
+        if (upcomingTrips.Count == 0)
+        {
+            Console.WriteLine("No upcoming trips in the next 24 hours.");
+            return;
+        }
+
+        Console.WriteLine("\nUpcoming Trips (Next 24 hours):");
+        Console.WriteLine("=================================");
+
+        foreach (var trip in upcomingTrips)
+        {
+            var packedCount = trip.ChecklistItems.Count(i => i.IsPacked);
+            var totalCount = trip.ChecklistItems.Count;
+
+            Console.WriteLine($"\n⏰ {trip.Name} starts in {trip.TimeUntilTrip:hh\\:mm} hours!");
+            Console.WriteLine($"    Packing progress: {packedCount}/{totalCount} items packed");
+
+            if (packedCount < totalCount)
+            {
+                var unpackedItems = trip.ChecklistItems.Where(i => i.IsPacked).ToList();
+                Console.WriteLine("     Remaining items:");
+                foreach (var item in unpackedItems)
+                {
+                    Console.WriteLine($"    -{item.Name}");
+                }
+            }
+        }
     }
 
     private static void MarkItemAsPacked()
@@ -162,7 +190,16 @@ class Program
             Console.Write("End Time (yyyy-MM-dd HH:mm): ");
             if (DateTime.TryParse(Console.ReadLine(), out var endTime))
             {
-                // Here you would normally save the trip to a database or in-memory list
+                var newTrip = new Trip
+                {
+                    Id = nextTripId++,
+                    Name = name,
+                    TripType = tripType,
+                    StartTime = startTime,
+                    EndTime = endTime
+                };
+
+                trips.Add(newTrip);
                 Console.WriteLine($"Trip '{name}' of type '{tripType}' created from {startTime} to {endTime}.");
             }
             else
