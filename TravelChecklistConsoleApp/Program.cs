@@ -1,8 +1,13 @@
 ﻿
+using TravelChecklistConsoleApp.Models;
+
 namespace TravelChecklistConsoleApp;
 
 class Program
 {
+    private static List<Trip> trips = new List<Trip>();
+    private static int nextTripId = 1;
+    private static int nextItemId = 1;
     static void Main(string[] args)
     {
         Console.WriteLine("Travel Checklist - Checklist Manager");
@@ -61,12 +66,55 @@ class Program
 
     private static void AddItemToTrip()
     {
-        throw new NotImplementedException();
+        ViewAllTrips();
+
+        Console.WriteLine("Enter Trip ID to add item to: ");
+        if (int.TryParse(Console.ReadLine(), out int tripId))
+        {
+            var trip = trips.FirstOrDefault(t => t.Id == tripId);
+            if (trip != null)
+            {
+                Console.WriteLine("Item Name: ");
+                var itemName = Console.ReadLine();
+
+                Console.WriteLine("Category (General/Clothing/Electronics/Toiletries/Other): ");
+
+                var category = Console.ReadLine() ?? "General";
+
+                var newItem = new ChecklistItem
+                {
+                    Id = nextItemId++,
+                    Name = itemName,
+                    Category = category
+                };
+
+                trip.ChecklistItems.Add(newItem);
+                Console.WriteLine($"Added '{itemName}' to {trip.Name} successfully.");
+            }
+            else
+                Console.WriteLine("Trip not found.");
+        }
+        else
+            Console.WriteLine("Invalid Trip ID.");
     }
 
     private static void ViewAllTrips()
     {
-        throw new NotImplementedException();
+        if (trips.Count == 0)
+        {
+            Console.WriteLine("No trips found");
+            return;
+        }
+
+        Console.WriteLine("\nYour Trips:");
+        Console.WriteLine("=============");
+
+        foreach (var trip in trips)
+        {
+            Console.WriteLine($"{trip.Id}. {trip.Name} ({trip.TripType}) - {trip.StartTime:dd MMM, yyyy} to {trip.EndTime:dd MMM, yyyy}");
+            Console.WriteLine($"    Items: {trip.ChecklistItems.Count}, Packed: {trip.ChecklistItems.Count(i => i.IsPacked)}");
+            Console.WriteLine($"    Time until trip: {trip.TimeUntilTrip.Days} days, {trip.TimeUntilTrip.Hours} hours\n");
+        }
     }
 
     private static void CreateNewTrip()
