@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Data.SqlClient;
 using TravelChecklistConsoleApp.Models;
 
 namespace TravelChecklistConsoleApp;
@@ -168,21 +169,47 @@ class Program
 
     private static void ViewAllTrips()
     {
-        if (trips.Count == 0)
-        {
-            Console.WriteLine("No trips found");
-            return;
-        }
+        // Open database connection
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
 
-        Console.WriteLine("\nYour Trips:");
-        Console.WriteLine("=============");
+        string sql = @"
+            SELECT t.*,
+                   COUNT(ci.Id) AS ItemCount,
+                   SUM(CASE WHEN ci.IsPacked = 1 THEN 1 ELSE 0 END) AS PackedCount
+            FROM Trips t
+            LEFT JOIN ChecklistItems ci ON t.Id = ci.TripId
+            GROUP BY t.Id, t.Name, t.TripType, t.StartTime, t.EndTime, t.CreatedAt
+            ORDER BY t.StartTime";
+        
+        using var command = new SqlCommand(sql, connection);
+        using var reader = command.ExecuteReader();
 
-        foreach (var trip in trips)
+        Console.WriteLine("\n== Your Trips ==");
+        bool hasTrips = false;
+
+        while (reader.Read())
         {
-            Console.WriteLine($"{trip.Id}. {trip.Name} ({trip.TripType}) - {trip.StartTime:dd MMM, yyyy} to {trip.EndTime:dd MMM, yyyy}");
-            Console.WriteLine($"    Items: {trip.ChecklistItems.Count}, Packed: {trip.ChecklistItems.Count(i => i.IsPacked)}");
-            Console.WriteLine($"    Time until trip: {trip.TimeUntilTrip.Days} days, {trip.TimeUntilTrip.Hours} hours\n");
+            hasTrips = true;
+            var tripId = reader["Id"];
+            var name = reader["Name"];
+            var tripType = reader["TripType"];
+            var startTime = Convert.ToDateTime(reader["StartTime"]);
+            var itemCount = reader["ItemCount"];
+            var packedCount = reader["PackedCount"];
+            var timeUntilTrip = startTime - DateTime.Now;
+
+            Console.WriteLine($"""
+                Trip {tripId}: {name} ({tripType})
+                    Dates: {startTime:dd MMM, yyyy HH:mm}
+                    Items: {packedCount}/{itemCount} packed
+                    Time until trip: {timeUntilTrip.Days}d {timeUntilTrip.Hours}h
+
+                """);
         }
+        if (!hasTrips)
+            Console.WriteLine("No trips found.\n");
+
     }
 
     private static void CreateNewTrip()
@@ -239,6 +266,11 @@ class Program
         {
             Console.WriteLine($"Error creating trip: {ex.Message}");
         }
+    }
+
+    private static int InsertTrip(string name, string? tripType, DateTime startTime, DateTime endTime)
+    {
+        throw new NotImplementedException();
     }
 
     public static void ShowMenu()
