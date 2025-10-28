@@ -9,6 +9,7 @@ class Program
     private static int nextTripId = 1;
     private static int nextItemId = 1;
 
+    // Connecting to the database
     private const string ConnectionString = "Server=localhost,1433;Database=TravelChecklistDb;User Id=SA;Password=P4ssword;TrustServerCertificate=True;";
 
     public static void Main(string[] args)
@@ -25,7 +26,7 @@ class Program
         while (true)
         {
             ShowMenu();
-            var choice = Console.ReadLine();
+            string? choice = Console.ReadLine();
             switch (choice)
             {
                 case "1":
@@ -186,38 +187,57 @@ class Program
 
     private static void CreateNewTrip()
     {
-        Console.Write("Trip Name: ");
-        var name = Console.ReadLine();
+        Console.WriteLine("\n== Create New Trip ==");
 
-        Console.Write("Trip Type (Train/Car/Plane/General): ");
-        var tripType = Console.ReadLine();
-
-        Console.Write("Start Time (yyyy-MM-dd HH:mm): ");
-        if (DateTime.TryParse(Console.ReadLine(), out var startTime))
+        try
         {
+            Console.Write("Trip Name: ");
+            string? name = Console.ReadLine();
+            if (string.IsNullOrEmpty(name))
+            {
+                Console.WriteLine("Trip name cannot be empty. Operation cancelled.\n");
+                return;
+            }
+
+            Console.Write("Trip Type (Train/Car/Plane/General): ");
+            string? tripType = Console.ReadLine();
+
+            Console.Write("Start Time (yyyy-MM-dd HH:mm): ");
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime startTime))
+            {
+                Console.WriteLine("Invalid start time format. Operation cancelled.\n");
+                return;
+            }
+
             Console.Write("End Time (yyyy-MM-dd HH:mm): ");
-            if (DateTime.TryParse(Console.ReadLine(), out var endTime))
+            if (!DateTime.TryParse(Console.ReadLine(), out DateTime endTime))
             {
-                var newTrip = new Trip
-                {
-                    Id = nextTripId++,
-                    Name = name,
-                    TripType = tripType,
-                    StartTime = startTime,
-                    EndTime = endTime
-                };
+                Console.WriteLine("Invalid end time format. Operation cancelled.\n");
+                return;
+            }
 
-                trips.Add(newTrip);
-                Console.WriteLine($"Trip '{name}' of type '{tripType}' created from {startTime} to {endTime}.");
-            }
-            else
+            // Confirm insertion
+            Console.WriteLine($"\nPlease confirm the details:"); 
+            Console.WriteLine($"Trip Name: {name}");
+            Console.WriteLine($"Trip Type: {tripType}");
+            Console.WriteLine($"Start Time: {startTime}");
+            Console.WriteLine($"End Time: {endTime}");
+            Console.Write("Is this information correct? (Y/N): ");
+
+            string? reply = Console.ReadLine()?.ToUpper().Trim();
+            if (reply != "Y")
             {
-                Console.WriteLine("Invalid end time format.");
+                Console.WriteLine("Trip creation cancelled.\n");
+                return;
             }
+
+            // Insert data into database
+            int tripId = InsertTrip(name, tripType, startTime, endTime);
+            Console.WriteLine($"New trip created with ID: {tripId}\n");
         }
-        else
+        catch (Exception ex)
         {
-            Console.WriteLine("Invalid start time format.");
+            Console.WriteLine($"Error creating trip: {ex.Message}");
         }
     }
 
