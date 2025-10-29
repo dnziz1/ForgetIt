@@ -66,35 +66,56 @@ class Program
 
     private static void CheckReminders()
     {
-        var upcomingTrips = trips.Where(t => t.TimeUntilTrip.TotalHours <= 24 && t.TimeUntilTrip.TotalHours > 0).ToList();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
 
-        if (upcomingTrips.Count == 0)
+        string sql = @"
+            SELECT t.*,
+                   COUNT(ci.Id) AS TotalItems,
+                   SUM(CASE WHEN ci.IsPacked = 1 THEN 1 ELSE 0 END) AS PackedItems
+            FROM Trips t
+            LEFT JOIN ChecklistItems ci ON t.id = ci.TripId
+            WHERE t.StartTime BETWEEN @now AND @next24hrs
+            GROUP BY t.id, t.Name, t.TripType, t.StartTime, t.EndTime, t.CreatedAt
+            ORDER BY t.StartTime";
+
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@now", DateTime.Now);
+        command.Parameters.AddWithValue("@next24hrs", DateTime.Now.AddHours(24));
+
+        using var reader = command.ExecuteReader();
+
+        Console.WriteLine("\n== Upcoming Trips (Next 24 Hours) ==");
+        bool hasUpcoming = false;
+
+        while (reader.Read())
         {
-            Console.WriteLine("No upcoming trips in the next 24 hours.");
-            return;
-        }
+            hasUpcoming = true;
+            var name = reader["Name"];
+            var tripType = reader["TripType"];
+            var startTime = Convert.ToDateTime(reader["StartTime"]);
+            var totalItems = Convert.ToInt32(reader["ItemCount"]);
+            var packedItems = Convert.ToInt32(reader["PackedCount"]);
+            var timeUntilTrip = startTime - DateTime.Now;
 
-        Console.WriteLine("\nUpcoming Trips (Next 24 hours):");
-        Console.WriteLine("=================================");
+            Console.WriteLine($"⏰ {name} ({tripType}) starts in {timeUntilTrip:h\\:mm} hours!");
+            Console.WriteLine($"    Packing progress: {packedItems}/{totalItems} items packed");
 
-        foreach (var trip in upcomingTrips)
-        {
-            var packedCount = trip.ChecklistItems.Count(i => i.IsPacked);
-            var totalCount = trip.ChecklistItems.Count;
-
-            Console.WriteLine($"\n⏰ {trip.Name} starts in {trip.TimeUntilTrip:hh\\:mm} hours!");
-            Console.WriteLine($"    Packing progress: {packedCount}/{totalCount} items packed");
-
-            if (packedCount < totalCount)
+            // Show unpacked items
+            if (packedItems < totalItems)
             {
-                var unpackedItems = trip.ChecklistItems.Where(i => i.IsPacked).ToList();
-                Console.WriteLine("     Remaining items:");
-                foreach (var item in unpackedItems)
-                {
-                    Console.WriteLine($"    -{item.Name}");
-                }
+                DisplayUnpackedItems(Convert.ToInt32(reader["Id"]));
             }
+            Console.WriteLine();
         }
+
+        if (!hasUpcoming)
+            Console.WriteLine("No upcoming trips in the next 24 hours.\n");
+    }
+
+    private static void DisplayUnpackedItems(int v)
+    {
+        throw new NotImplementedException();
     }
 
     private static void MarkItemAsPacked()
