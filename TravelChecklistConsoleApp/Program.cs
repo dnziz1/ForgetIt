@@ -138,33 +138,42 @@ class Program
         ViewAllTrips();
 
         Console.WriteLine("Enter Trip ID to add item to: ");
-        if (int.TryParse(Console.ReadLine(), out int tripId))
+        if (!int.TryParse(Console.ReadLine(), out int tripId))
         {
-            var trip = trips.FirstOrDefault(t => t.Id == tripId);
-            if (trip != null)
-            {
-                Console.WriteLine("Item Name: ");
-                var itemName = Console.ReadLine();
-
-                Console.WriteLine("Category (General/Clothing/Electronics/Toiletries/Other): ");
-
-                var category = Console.ReadLine() ?? "General";
-
-                var newItem = new ChecklistItem
-                {
-                    Id = nextItemId++,
-                    Name = itemName,
-                    Category = category
-                };
-
-                trip.ChecklistItems.Add(newItem);
-                Console.WriteLine($"Added '{itemName}' to {trip.Name} successfully.");
-            }
-            else
-                Console.WriteLine("Trip not found.");
+            Console.WriteLine("Invalid Trip ID. Please enter a numeric value.\n");
+            return;
         }
-        else
-            Console.WriteLine("Invalid Trip ID.");
+
+        // Check if trip exists
+        if (!TripExists(tripId))
+        {
+            Console.WriteLine($"Trip with ID {tripId} does not exist.\n");
+            return;
+        }
+
+        Console.Write("Item Name: ");
+        string? itemName = Console.ReadLine();
+        if (string.IsNullOrEmpty(itemName) )
+        {
+            Console.WriteLine("Item name can't be empty. Operation cancelled.\n");
+            return;
+        }
+
+        Console.Write("Category (General/Clothing/Electronics/Toiletries/Other): ");
+        string? category = Console.ReadLine() ?? "General";
+
+        int itemId = InsertChecklistItem(tripId, category);
+        Console.WriteLine($"Added '{itemName}' to trip with item ID: {itemId}\n");
+    }
+
+    private static int InsertChecklistItem(int tripId, string category)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static bool TripExists(int tripId)
+    {
+        throw new NotImplementedException();
     }
 
     private static void ViewAllTrips()
