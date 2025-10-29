@@ -148,7 +148,34 @@ class Program
 
     private static void DisplayTripItems(int tripId)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+
+        string sql = "SELECT * FROM ChecklistItems WHERE TripId = @tripId ORDER BY Id";
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@tripId", tripId);
+
+        using var reader = command.ExecuteReader();
+
+        Console.WriteLine($"\nChecklist Items for Trip {tripId}:");
+        bool hasItems = false;
+
+        while (reader.Read())
+        {
+            hasItems = true;
+            var itemId = reader["Id"];
+            var name = reader["Name"];
+            var isPacked = Convert.ToBoolean(reader["IsPacked"]);
+            var category = reader["Category"];
+            var status = isPacked ? "[PACKED}" : "[ ]";
+
+            Console.WriteLine($"    {itemId}. {status} {name} ({category})");
+        }
+
+        if (!hasItems)
+        {
+            Console.WriteLine("   No items in checklist.\n");
+        }
     }
 
     private static void AddItemToTrip()
@@ -204,7 +231,15 @@ class Program
 
     private static bool TripExists(int tripId)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+
+        string sql = "SELECT COUNT(1) FROM Trips WHERE Id = @id";
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@id", tripId);
+
+        int count = Convert.ToInt32(command.ExecuteScalar());
+        return count > 0;
     }
 
     private static void ViewAllTrips()
