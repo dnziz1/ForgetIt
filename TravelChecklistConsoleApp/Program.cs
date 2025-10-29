@@ -11,7 +11,7 @@ class Program
     private static int nextItemId = 1;
 
     // Connecting to the database
-    private const string ConnectionString = "Server=localhost,1433;Database=TravelChecklistDb;User Id=SA;Password=P4ssword;TrustServerCertificate=True;";
+    private const string ConnectionString = "Server=localhost,1433;Database=TravelChecklist;User Id=SA;Password=P4ssword;TrustServerCertificate=True;";
 
     public static void Main(string[] args)
     {
@@ -295,9 +295,24 @@ class Program
         }
     }
 
+    // Insert trip into database
     private static int InsertTrip(string name, string? tripType, DateTime startTime, DateTime endTime)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+
+        string sql = @"
+            INSERT INTO Trips (Name, TripType, StartTime, EndTime)
+            VALUES (@name, @tripType, @startTime, @endTime);
+            SELECT SCOPE_IDENTITY();";
+
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@name", name);
+        command.Parameters.AddWithValue("@tripType", tripType);
+        command.Parameters.AddWithValue("@startTime", startTime);
+        command.Parameters.AddWithValue("@endTime", endTime);
+
+        return Convert.ToInt32(command.ExecuteScalar());
     }
 
     public static void ShowMenu()
