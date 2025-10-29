@@ -180,13 +180,26 @@ class Program
         Console.Write("Category (General/Clothing/Electronics/Toiletries/Other): ");
         string? category = Console.ReadLine() ?? "General";
 
-        int itemId = InsertChecklistItem(tripId, category);
+        int itemId = InsertChecklistItem(tripId, itemName, category);
         Console.WriteLine($"Added '{itemName}' to trip with item ID: {itemId}\n");
     }
 
-    private static int InsertChecklistItem(int tripId, string category)
+    private static int InsertChecklistItem(int tripId, string name, string category)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+
+        string sql = @"
+            INSERT INTO ChecklistItems (TripId, Name, Category)
+            VALUES (@tripId, @name, @category);
+            SELECT SCOPE_IDENTITY();";
+
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@tripId", tripId);
+        command.Parameters.AddWithValue("@name", name);
+        command.Parameters.AddWithValue("@category", category);
+
+        return Convert.ToInt32(command.ExecuteScalar());
     }
 
     private static bool TripExists(int tripId)
