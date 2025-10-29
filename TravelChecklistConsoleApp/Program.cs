@@ -99,38 +99,35 @@ class Program
 
     private static void MarkItemAsPacked()
     {
-        ViewAllTrips();
-
-        Console.WriteLine("Enter Trip ID");
-        if (int.TryParse(Console.ReadLine(), out int tripId))
+        Console.Write("\nEnter Trip ID: ");
+        if (!int.TryParse(Console.ReadLine(), out int tripId))
         {
-            var trip = trips.FirstOrDefault(t => t.Id == tripId);
-            if (trip != null && trip.ChecklistItems.Count > 0)
-            {
-                Console.WriteLine($"\nChecklist for {trip.Name}:");
-                foreach (var item in trip.ChecklistItems)
-                {
-                    var status = item.IsPacked ? "[PACKED]" : "[ ]";
-                    Console.WriteLine($"{item.Id}. {status} {item.Name} ({item.Category})");
-                }
-
-                Console.WriteLine("Enter Item ID to mark as packed: ");
-                if (int.TryParse(Console.ReadLine(), out int itemId))
-                {
-                    var item = trip.ChecklistItems.FirstOrDefault(t => t.Id == itemId);
-                    if (item != null)
-                    {
-                        item.IsPacked = true;
-                        item.PackedAt = DateTime.UtcNow;
-                        Console.WriteLine($"Marked '{item.Name}' as packed!");
-                    }
-                    else
-                        Console.WriteLine("Item not found.");
-                }
-            }
-            else
-                Console.WriteLine("Trip not found or no items in checklist.");
+            Console.WriteLine("Invalid Trip ID. Please enter a numeric value.\n");
+            return;
         }
+
+        // Show items for this trip
+        DisplayTripItems(tripId);
+
+        Console.WriteLine("Enter Item ID to mark as packed: ");
+        if (!int.TryParse(Console.ReadLine(), out int itemId))
+        {
+            Console.WriteLine("Invalid Item ID. Please enter a numeric value.\n");
+            return;
+        }
+
+        // Update the items
+        UpdateItemAsPacked(itemId);
+    }
+
+    private static void UpdateItemAsPacked(int itemId)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static void DisplayTripItems(int tripId)
+    {
+        throw new NotImplementedException();
     }
 
     private static void AddItemToTrip()
