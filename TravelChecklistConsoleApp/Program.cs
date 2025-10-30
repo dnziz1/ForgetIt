@@ -113,9 +113,22 @@ class Program
             Console.WriteLine("No upcoming trips in the next 24 hours.\n");
     }
 
-    private static void DisplayUnpackedItems(int v)
+    private static void DisplayUnpackedItems(int tripId)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+
+        string sql = "SELECT Name FROM ChecklistItems WHERE TripId = @tripId AND IsPacked = 0";
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@tripId", tripId);
+
+        using var reader = command.ExecuteReader();
+
+        Console.WriteLine("    Remaining Items:");
+        while (reader.Read())
+        {
+            Console.WriteLine($"    - {reader["Name"]}");
+        }
     }
 
     private static void MarkItemAsPacked()
