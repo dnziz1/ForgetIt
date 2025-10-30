@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TravelChecklistConsoleApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73c6ef8930d944224d884a6629ed5226b94e35fc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a20b2fc8e0bfc404e9eb2750cdeeca822b206b4")]
 [assembly: System.Reflection.AssemblyProductAttribute("TravelChecklistConsoleApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TravelChecklistConsoleApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
