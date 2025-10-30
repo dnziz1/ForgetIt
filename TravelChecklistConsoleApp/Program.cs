@@ -143,7 +143,20 @@ class Program
 
     private static void UpdateItemAsPacked(int itemId)
     {
-        throw new NotImplementedException();
+        using var connection = new SqlConnection(ConnectionString);
+        connection.Open();
+
+        string sql = @"
+            UPDATE ChecklistItems
+            SET IsPacked = 1, PackedAt = @packedAt
+            WHERE Id = @itemId";
+
+        using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@itemId", itemId);
+        command.Parameters.AddWithValue("@packedAt", DateTime.Now);
+
+        int rows = command.ExecuteNonQuery();
+        Console.WriteLine(rows > 0 ? "Item marked as packed!\n" : "Item not found.\n");
     }
 
     private static void DisplayTripItems(int tripId)
