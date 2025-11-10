@@ -83,6 +83,8 @@ class Program
         command.Parameters.AddWithValue("@now", DateTime.Now);
         command.Parameters.AddWithValue("@next24hrs", DateTime.Now.AddHours(24));
 
+        connection.Close();
+
         using var reader = command.ExecuteReader();
 
         Console.WriteLine("\n== Upcoming Trips (Next 24 Hours) ==");
@@ -121,6 +123,8 @@ class Program
         string sql = "SELECT Name FROM ChecklistItems WHERE TripId = @tripId AND IsPacked = 0";
         using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@tripId", tripId);
+
+        connection.Close();
 
         using var reader = command.ExecuteReader();
 
@@ -168,6 +172,8 @@ class Program
         command.Parameters.AddWithValue("@itemId", itemId);
         command.Parameters.AddWithValue("@packedAt", DateTime.Now);
 
+        connection.Close();
+
         int rows = command.ExecuteNonQuery();
         Console.WriteLine(rows > 0 ? "Item marked as packed!\n" : "Item not found.\n");
     }
@@ -180,6 +186,8 @@ class Program
         string sql = "SELECT * FROM ChecklistItems WHERE TripId = @tripId ORDER BY Id";
         using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@tripId", tripId);
+
+        connection.Close();
 
         using var reader = command.ExecuteReader();
 
@@ -252,6 +260,8 @@ class Program
         command.Parameters.AddWithValue("@name", name);
         command.Parameters.AddWithValue("@category", category);
 
+        connection.Close();
+
         return Convert.ToInt32(command.ExecuteScalar());
     }
 
@@ -263,6 +273,8 @@ class Program
         string sql = "SELECT COUNT(1) FROM Trips WHERE Id = @id";
         using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@id", tripId);
+
+        connection.Close();
 
         int count = Convert.ToInt32(command.ExecuteScalar());
         return count > 0;
@@ -284,6 +296,9 @@ class Program
             ORDER BY t.StartTime";
         
         using var command = new SqlCommand(sql, connection);
+
+        connection.Close();
+
         using var reader = command.ExecuteReader();
 
         Console.WriteLine("\n== Your Trips ==");
@@ -385,6 +400,8 @@ class Program
         command.Parameters.AddWithValue("@tripType", tripType);
         command.Parameters.AddWithValue("@startTime", startTime);
         command.Parameters.AddWithValue("@endTime", endTime);
+
+        connection.Close();
 
         return Convert.ToInt32(command.ExecuteScalar());
     }
