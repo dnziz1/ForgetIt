@@ -6,10 +6,6 @@ namespace TravelChecklistConsoleApp;
 
 class Program
 {
-    private static List<Trip> trips = new List<Trip>();
-    private static int nextTripId = 1;
-    private static int nextItemId = 1;
-
     // Connecting to the database
     private const string ConnectionString = "Server=localhost,1433;Database=TravelChecklist;User Id=SA;Password=P4ssword;TrustServerCertificate=True;";
 
@@ -83,8 +79,6 @@ class Program
         command.Parameters.AddWithValue("@now", DateTime.Now);
         command.Parameters.AddWithValue("@next24hrs", DateTime.Now.AddHours(24));
 
-        connection.Close();
-
         using var reader = command.ExecuteReader();
 
         Console.WriteLine("\n== Upcoming Trips (Next 24 Hours) ==");
@@ -96,8 +90,8 @@ class Program
             var name = reader["Name"];
             var tripType = reader["TripType"];
             var startTime = Convert.ToDateTime(reader["StartTime"]);
-            var totalItems = Convert.ToInt32(reader["ItemCount"]);
-            var packedItems = Convert.ToInt32(reader["PackedCount"]);
+            var totalItems = Convert.ToInt32(reader["TotalItems"]);
+            var packedItems = Convert.ToInt32(reader["PackedItems"]);
             var timeUntilTrip = startTime - DateTime.Now;
 
             Console.WriteLine($"⏰ {name} ({tripType}) starts in {timeUntilTrip:h\\:mm} hours!");
@@ -123,8 +117,6 @@ class Program
         string sql = "SELECT Name FROM ChecklistItems WHERE TripId = @tripId AND IsPacked = 0";
         using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@tripId", tripId);
-
-        connection.Close();
 
         using var reader = command.ExecuteReader();
 
@@ -172,8 +164,6 @@ class Program
         command.Parameters.AddWithValue("@itemId", itemId);
         command.Parameters.AddWithValue("@packedAt", DateTime.Now);
 
-        connection.Close();
-
         int rows = command.ExecuteNonQuery();
         Console.WriteLine(rows > 0 ? "Item marked as packed!\n" : "Item not found.\n");
     }
@@ -187,8 +177,6 @@ class Program
         using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@tripId", tripId);
 
-        connection.Close();
-
         using var reader = command.ExecuteReader();
 
         Console.WriteLine($"\nChecklist Items for Trip {tripId}:");
@@ -201,7 +189,7 @@ class Program
             var name = reader["Name"];
             var isPacked = Convert.ToBoolean(reader["IsPacked"]);
             var category = reader["Category"];
-            var status = isPacked ? "[PACKED}" : "[ ]";
+            var status = isPacked ? "[PACKED]" : "[ ]";
 
             Console.WriteLine($"    {itemId}. {status} {name} ({category})");
         }
@@ -260,8 +248,6 @@ class Program
         command.Parameters.AddWithValue("@name", name);
         command.Parameters.AddWithValue("@category", category);
 
-        connection.Close();
-
         return Convert.ToInt32(command.ExecuteScalar());
     }
 
@@ -273,8 +259,6 @@ class Program
         string sql = "SELECT COUNT(1) FROM Trips WHERE Id = @id";
         using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@id", tripId);
-
-        connection.Close();
 
         int count = Convert.ToInt32(command.ExecuteScalar());
         return count > 0;
@@ -296,8 +280,6 @@ class Program
             ORDER BY t.StartTime";
         
         using var command = new SqlCommand(sql, connection);
-
-        connection.Close();
 
         using var reader = command.ExecuteReader();
 
@@ -400,8 +382,6 @@ class Program
         command.Parameters.AddWithValue("@tripType", tripType);
         command.Parameters.AddWithValue("@startTime", startTime);
         command.Parameters.AddWithValue("@endTime", endTime);
-
-        connection.Close();
 
         return Convert.ToInt32(command.ExecuteScalar());
     }
