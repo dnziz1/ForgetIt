@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForgetItApp", "ForgetItApp\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelChecklistConsoleApp", "TravelChecklistConsoleApp\TravelChecklistConsoleApp.csproj", "{D45056BB-36C5-4495-9684-53BA6AFDFBF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelChecklistConsoleAppTest", "TravelChecklistConsoleAppTest\TravelChecklistConsoleAppTest.csproj", "{10AB563D-408D-4C65-B526-7DC6D7DDE1FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D45056BB-36C5-4495-9684-53BA6AFDFBF8} = {D45056BB-36C5-4495-9684-53BA6AFDFBF8}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +28,10 @@ Global
 		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D45056BB-36C5-4495-9684-53BA6AFDFBF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10AB563D-408D-4C65-B526-7DC6D7DDE1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10AB563D-408D-4C65-B526-7DC6D7DDE1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10AB563D-408D-4C65-B526-7DC6D7DDE1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10AB563D-408D-4C65-B526-7DC6D7DDE1FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
